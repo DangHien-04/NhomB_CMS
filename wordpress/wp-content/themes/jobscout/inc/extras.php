@@ -152,8 +152,8 @@ function jobscout_site_branding( $responsive = false ){
             <?php
 
             }
-            echo '</div><!-- .site-title-wrap -->'
-        ?>
+            echo '</div><!-- .site-title-wrap -->';
+    ?>
     </div>
     <?php
 }
@@ -165,7 +165,7 @@ if( ! function_exists( 'jobscout_primary_nagivation' ) ) :
 */
 function jobscout_primary_nagivation(){ 
 
-    $post_job_label  = get_theme_mod( 'post_job_label', __( 'Post Jobs', 'jobscout' ) );
+    $post_job_label  = get_theme_mod( 'post_job_label', __( 'SUBMIT JOB', 'jobscout' ) );
     $post_job_url    = get_theme_mod( 'post_job_url', '#' );
     ?>
     	<nav id="site-navigation" class="main-navigation" role="navigation" itemscope itemtype="https://schema.org/SiteNavigationElement">
@@ -189,14 +189,14 @@ function jobscout_primary_nagivation(){
                 <a class="btn" href="<?php echo esc_url( $post_job_url ) ?>"><?php echo esc_html( $post_job_label ) ?></a>
             </div>
         <?php } 
-  
-    
+    ?>
+    <?php
 }
 endif;
 
 if( ! function_exists( 'jobscout_primary_menu_fallback' ) ) :
 /**
- * Fallback for primary menu
+ * Fallback for primary navigation
 */
 function jobscout_primary_menu_fallback(){
     if( current_user_can( 'manage_options' ) ){
@@ -574,9 +574,9 @@ function jobscout_is_woocommerce_activated() {
 */
 function jobscout_is_jetpack_activated( $gallery = false ){
 	if( $gallery ){
-        return ( class_exists( 'jetpack' ) && Jetpack::is_module_active( 'tiled-gallery' ) ) ? true : false;
+        return ( class_exists( 'Jetpack' ) && Jetpack::is_module_active( 'tiled-gallery' ) ) ? true : false;
 	}else{
-        return class_exists( 'jetpack' ) ? true : false;
+        return class_exists( 'Jetpack' ) ? true : false;
     }           
 }
 
