@@ -4,7 +4,7 @@ Theme URI: https://rarathemes.com/wordpress-themes/jobscout/
 Author: Rara Theme
 Author URI: https://rarathemes.com/
 Description: JobScout free WordPress theme is a complete solution for creating a website and posting jobs online for recruiters, employment agencies, and human resource company. You can create a fully-responsive and professional JobScout website with this theme without writing a single line of code. The theme features an attractive and engaging layout that helps you keep your visitors engaged on the website. This theme is optimized for speed and helps your website load in a blink of an eye and provides your visitors with the excellent user experience. Also, it is developed with SEO optimized codes and is Schema.org markup ready which boosts the ranking of your website in search engine results. Furthermore, it is a cross-browser compatible, translation ready and supports RTL scripts. Also, it is backed up by the super-friendly and experienced support team to help you with your issues and queries while using our theme. Check the demo at https://rarathemes.com/previews/?theme=jobscout, documentation at https://docs.rarathemes.com/docs/jobscout/ and get support at https://rarathemes.com/support-forum/.  
-Version: 1.1.7
+Version: 1.1.8
 Tested up to: 6.6
 Requires PHP: 7.3
 Requires at least: 6.2
@@ -1103,9 +1103,54 @@ body.custom-background .site {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
 
+body.custom-background.contact-page .site {
+  max-width: 100%;
+  margin: 0;
+  background: #fff;
+  box-shadow: none;
+  width: 100%;
+}
+
+.contact-page .site-header .container,
+.contact-page .site-footer .container {
+  max-width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .container {
   margin: 0 auto;
   max-width: 1170px;
+}
+
+.contact-page .site-content > .container {
+  max-width: 100%;
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.contact-page .container {
+  max-width: 100%;
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.contact-page .header-main > .container {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.contact-page .header-t .container {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.contact-page .footer-t .container,
+.contact-page .footer-b .container {
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 .fallback-svg {
@@ -1852,6 +1897,11 @@ SIDEBARS
 .site-content {
   margin-top: 50px;
   margin-bottom: 50px;
+}
+
+.contact-page .site-content {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .rightsidebar #primary {
@@ -3379,6 +3429,210 @@ CONTACT PAGE
   margin-top: 0;
   font-size: 0.8888em;
   font-weight: 400;
+}
+
+.page-template-contact .site-main {
+  padding: 0;
+}
+
+
+.contact-page .contact-hero {
+  background-size: cover;
+  background-position: center;
+  min-height: 500px;
+  position: relative;
+  z-index: 1;
+  margin-top: -48px;
+}
+
+.contact-page .contact-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.contact-page .contact-hero__inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.contact-page .contact-hero__eyebrow {
+  color: #fff;
+  font-size: 0.875rem;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.contact-page .contact-hero__title {
+  color: #fff;
+  font-size: 2.5rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+.contact-address-block {
+  text-align: center;
+  background: #fff;
+}
+
+.contact-address-block__title {
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+}
+
+.contact-address-block__text {
+  color: #555;
+  margin: 0;
+}
+
+.contact-section__inner {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* Ultimate full-width fix for contact sections */
+.contact-address-block,
+.contact-info-grid {
+  position: relative !important;
+  width: 100vw !important;
+  margin-left: calc(-50vw + 50%) !important;
+  margin-right: calc(-50vw + 50%) !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  max-width: none !important;
+  left: 0 !important;
+  right: 0 !important;
+}
+
+body.contact-page .contact-address-block,
+body.contact-page .contact-info-grid {
+  position: relative !important;
+  width: 100vw !important;
+  margin-left: calc(-50vw + 50%) !important;
+  margin-right: calc(-50vw + 50%) !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  max-width: none !important;
+  left: 0 !important;
+  right: 0 !important;
+}
+
+.contact-info-grid {
+  background: #f0edea;
+}
+
+.contact-info-grid__inner {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.contact-card {
+  text-align: center;
+  color: #333;
+}
+
+.contact-card h3 {
+  text-transform: uppercase;
+  margin-bottom: 15px;
+}
+
+.contact-card__city h4 {
+  margin: 15px 0 5px;
+}
+
+.contact-card__city a,
+.contact-card__hotline {
+  color: #000;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.contact-card__detail,
+.contact-card__note {
+  margin-top: 20px;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.contact-card--hotline .contact-card__hotline,
+.contact-card__hotline {
+  font-size: 1.4rem;
+  color: #555;
+}
+
+.contact-card__hotline {
+  font-size: 1.1rem;
+  color: #333;
+  text-decoration: none;
+}
+
+.contact-card__city a {
+  font-size: 1.1rem;
+  color: #333;
+  text-decoration: none;
+}
+
+.contact-card__city a:hover {
+  color: #2ace5e;
+}
+
+.contact-card__hotline:hover {
+  color: #2ace5e;
+}
+
+.contact-page__content {
+  padding: 60px 0;
+}
+
+.contact-page__content p:last-child {
+  margin-bottom: 0;
+}
+
+.contact-address-block .contact-section__inner,
+.contact-info-grid .contact-section__inner,
+.contact-page__content-inner {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.contact-address-block .contact-section__inner {
+  padding-top: 45px;
+  padding-bottom: 45px;
+}
+
+.contact-info-grid .contact-section__inner {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+@media only screen and (max-width: 991px) {
+  .contact-address-block .contact-section__inner,
+  .contact-info-grid .contact-section__inner,
+  .contact-page__content-inner {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .contact-info-grid__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-card {
+    text-align: left;
+  }
+
+  .contact-hero__title {
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+  }
 }
 
 /*===========================
@@ -7236,6 +7490,39 @@ RESPONSIVE STYLESHEET
 }
 
 /* Design issues in raracompanion fixes */
+
+/* CONTACT PAGE FULL-WIDTH FIX - HIGHEST PRIORITY */
+body.custom-background.contact-page .site,
+body.custom-background.contact-page .site-content,
+body.custom-background.contact-page .site-content > .container,
+body.custom-background.contact-page .contact-hero,
+body.custom-background.contact-page .contact-address-block,
+body.custom-background.contact-page .contact-info-grid {
+  max-width: none !important;
+  width: 100vw !important;
+  margin-left: calc(-50vw + 50%) !important;
+  margin-right: calc(-50vw + 50%) !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  left: 0 !important;
+  right: 0 !important;
+}
+
+body.custom-background.contact-page .site {
+  margin: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Center content inside */
+body.custom-background.contact-page .contact-hero__inner,
+body.custom-background.contact-page .contact-section__inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
 
 /* Testimonial fixes */
 .site-footer .widget_rrtc_testimonial_widget .rtc-testimonial-holder .rtc-testimonial-inner-holder .text-holder .testimonial-meta {
