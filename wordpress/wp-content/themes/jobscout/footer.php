@@ -257,7 +257,7 @@ do_action('jobscout_before_footer');
     }
 
     .nav-social-section {
-        background-color: #f8f9fa;
+        background-color: #F2F2F2;
         padding: 30px 0;
     }
 
@@ -352,6 +352,11 @@ do_action('jobscout_before_footer');
         max-width: 1200px;
         margin: 0 auto;
         padding: 0 20px;
+    }
+
+    /* Remove white gap between main content and footer */
+    .site-content {
+        margin-bottom: 0 !important;
     }
 
     @media (max-width: 768px) {
