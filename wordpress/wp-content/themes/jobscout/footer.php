@@ -53,13 +53,17 @@ do_action('jobscout_before_footer');
             <div class="footer-content">
                 <!-- Navigation Menu -->
                 <nav class="footer-nav">
-                    <ul>
-                        <li><a href="<?php echo esc_url(home_url('/jobs')); ?>">JOBS</a></li>
-                        <li><a href="<?php echo esc_url(home_url('/companies')); ?>">COMPANIES</a></li>
-                        <li><a href="<?php echo esc_url(home_url('/blog')); ?>">BLOG</a></li>
-                        <li><a href="<?php echo esc_url(home_url('/about')); ?>">ABOUT</a></li>
-                        <li><a href="<?php echo esc_url(home_url('/contact')); ?>">CONTACT</a></li>
-                    </ul>
+                    <?php if ( is_active_sidebar( 'footer-one' ) ) : ?>
+                        <?php dynamic_sidebar( 'footer-one' ); ?>
+                    <?php else : ?>
+                        <ul>
+                            <li><a href="<?php echo esc_url(home_url('/jobs')); ?>">JOBS</a></li>
+                            <li><a href="<?php echo esc_url(home_url('/companies')); ?>">COMPANIES</a></li>
+                            <li><a href="<?php echo esc_url(home_url('/blog')); ?>">BLOG</a></li>
+                            <li><a href="<?php echo esc_url(home_url('/about')); ?>">ABOUT</a></li>
+                            <li><a href="<?php echo esc_url(home_url('/contact')); ?>">CONTACT</a></li>
+                        </ul>
+                    <?php endif; ?>
                 </nav>
 
                 <!-- Social Media Icons -->
