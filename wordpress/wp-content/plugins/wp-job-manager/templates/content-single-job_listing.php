@@ -47,7 +47,14 @@ if (job_manager_user_can_view_job_listing($id)):
                     </div>
                     <div class="sj-info">
                         <h1 class="sj-title"><?php the_title(); ?></h1>
-                        <p class="sj-date">Created: <?php echo esc_html($date); ?></p>
+                        <?php
+                        $old_locale = get_locale();
+                        switch_to_locale('en_US');
+                        ?>
+                        <p class="job-date">Created: <?php echo get_the_date('M d, Y'); ?></p>
+                        <?php
+                        restore_previous_locale();
+                        ?>
                         <div class="sj-meta-bar">
                             <span><?php echo esc_html($type_name); ?></span>
                             <span><?php echo esc_html($cat_name); ?></span>
@@ -142,7 +149,14 @@ if (job_manager_user_can_view_job_listing($id)):
                                                 <a
                                                     href="<?php the_permalink(); ?>"><?php echo mb_strlen(get_the_title()) > 20 ? mb_substr(get_the_title(), 0, 25) . '...' : get_the_title(); ?></a>
                                             </h3>
+                                            <?php
+                                            $old_locale = get_locale();
+                                            switch_to_locale('en_US');
+                                            ?>
                                             <p class="job-date">Created: <?php echo get_the_date('M d, Y'); ?></p>
+                                            <?php
+                                            restore_previous_locale();
+                                            ?>
                                             <div class="job-meta-gray-bar">
                                                 <span><?php echo esc_html($o_type); ?></span>
                                                 <span><?php echo esc_html($o_cat); ?></span>
