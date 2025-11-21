@@ -20,9 +20,12 @@ if ( ! defined( 'ABSPATH' ) ) {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
 }
 .site-content {
-    background-color: #f5f5f5;
+    background-color: #f2f2f2;
+    margin-top: 0;
+    margin-bottom: 0;
 }
  .hero {
    width: 100vw;   /* Full viewport width */
