@@ -278,34 +278,34 @@ restore_previous_locale();
                     </div>
                 </div>
 
-                <div class="job-card-body">
-                    <ul>
-                        <?php
-                        $content = get_the_content();
-                        $content = wp_strip_all_tags($content);
-                        
-                        // Tách nội dung thành các dòng
-                        $lines = preg_split('/[\n\r]+/', $content);
-                        $lines = array_filter(array_map('trim', $lines));
-                        
-                        // Hiển thị tối đa 3 dòng đầu tiên
-                        $count = 0;
-                        foreach ($lines as $line) {
-                            if ($count >= 3) break;
-                            if (!empty($line)) {
-                                echo '<li>' . esc_html($line) . '</li>';
-                                $count++;
-                            }
-                        }
-                        
-                        // Nếu không đủ 3 dòng, thêm dòng trống
-                        while ($count < 3) {
-                            echo '<li>&nbsp;</li>';
-                            $count++;
-                        }
-                        ?>
-                    </ul>
-                </div>
+              <div class="job-card-body">
+                                    <ul>
+                                        <?php
+                                        $content = get_the_content();
+                                        $content = wp_strip_all_tags($content);
+
+                                        // Tách nội dung thành các dòng
+                                        $lines = preg_split('/[\n\r]+/', $content);
+                                        $lines = array_filter(array_map('trim', $lines));
+
+                                        // Hiển thị tối đa 3 dòng đầu tiên
+                                        $count = 0;
+                                        // Số từ tối đa cho mỗi dòng
+                                        $max_words_per_line = 10; // Ví dụ: Giới hạn 15 từ
+
+                                        foreach ($lines as $line) {
+                                            if ($count >= 3)
+                                                break;
+                                            if (!empty($line)) {
+                                                // Cắt bớt nội dung của từng dòng
+                                                $trimmed_line = wp_trim_words($line, $max_words_per_line, '...');
+                                                echo '<li>' . esc_html($trimmed_line) . '</li>';
+                                                $count++;
+                                            }
+                                        }
+                                        ?>
+                                    </ul>
+                                </div>
 
             </div>
         </div>
