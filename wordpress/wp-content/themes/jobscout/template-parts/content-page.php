@@ -21,6 +21,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     padding: 0;
     box-sizing: border-box;
 }
+.site-content {
+    background-color: #f5f5f5;
+}
  .hero {
    width: 100vw;   /* Full viewport width */
     margin-left: calc(50% - 50vw);  /* Bẻ ra khỏi container */
@@ -67,124 +70,123 @@ if ( ! defined( 'ABSPATH' ) ) {
 /* GRID 2 CỘT GIỐNG HÌNH */
 .jobs-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 35px;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    width: 100%;
 }
 
-@media(max-width: 900px){
+@media (max-width: 768px) {
     .jobs-grid {
         grid-template-columns: 1fr;
     }
 }
 
-/* Ô JOB CARD */
-.job-card {
+/* Job Card */
+.job-card-layout {
     background: #fff;
-    border: 1px solid #e3e3e3;
-    padding: 25px 30px;
-    transition: box-shadow .3s ease;
+    padding: 30px;
+    border-radius: 3px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    height: 100%;
 }
 
-.job-card:hover {
-    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-}
-
-/* HEADER: LOGO + TIÊU ĐỀ */
-.job-header {
+/* Header */
+.job-card-header {
     display: flex;
     align-items: flex-start;
-    gap: 22px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
-.job-logo {
-    width: 100px;
-    height: 100px;
-    border: 1px solid #dcdcdc;
+.job-logo-box {
+    width: 90px;
+    height: 90px;
+    border: 1px solid black;
+    margin-right: 20px;
+    flex-shrink: 0;
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding: 12px;
-    background: #fff;
+    justify-content: center;
+}
+.job-logo-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
 }
 
-.job-logo img {
-    max-width: 100%;
-    height: auto;
-}
+.job-info-box { flex-grow: 1; }
 
 .job-title {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
     text-transform: uppercase;
-    margin-bottom: 6px;
+    margin: 0 0 8px 0;
+    line-height: 1.3;
 }
+.job-title a { color: #333; text-decoration: none; }
 
 .job-date {
-    font-size: 13px;
-    color: #777;
-    margin-bottom: 12px;
-}
-
-/* HÀNG META (Fulltime – Category – Location) */
-.job-meta-row {
-    display: flex;
-    background: #fff;
-    border: 1px solid #e5e5e5;
-    border-radius: 3px;
-    overflow: hidden;
-    width: fit-content;
-}
-
-/* Mỗi ô */
-.job-meta-row span {
     font-size: 12px;
-    padding: 6px 18px;
-    color: #555;
-    background: #fafafa;
+    color: #999;
+    margin-bottom: 10px;
+}
+
+.job-meta-gray-bar {
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    padding: 6px 12px;
+    display: inline-flex;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: #666;
+    gap: 10px;
+}
+.job-meta-gray-bar span:not(:last-child)::after {
+    content: "|";
+    margin-left: 10px;
+    color: #ccc;
+}
+
+/* Body */
+.job-card-body ul { list-style: none; padding: 0; margin: 0; }
+.job-card-body ul li {
     position: relative;
-    white-space: nowrap;
-}
-
-/* Đường kẻ giữa các ô – cách trên 2px và dưới 2px */
-.job-meta-row span:not(:last-child)::after {
-    content: "";
-    position: absolute;
-    right: 0;
-    top: 2px;       /* cách trên 2px */
-    bottom: 2px;    /* cách dưới 2px */
-    width: 1px;
-    background: #dcdcdc;  /* màu đường kẻ */
-}
-
-.job-meta-row span:last-child {
-    border-right: none;
-}
-
-/* DANH SÁCH LỢI ÍCH */
-.job-benefits {
-    list-style: none;
-    margin-top: 18px;
-    padding-left: 0;
-    margin-left: 0px;  /* dịch toàn bộ danh sách qua trái */
-}
-
-.job-benefits li {
-    position: relative;
-    padding-left: 18px; /* để chữ cách dấu chấm 5–8px */
-    font-size: 13px;
-    line-height: 1.7;
+    padding-left: 15px;
     margin-bottom: 6px;
+    font-size: 13px;
     color: #555;
+    line-height: 1.5;
 }
-
-.job-benefits li::before {
+.job-card-body ul li::before {
     content: "•";
     position: absolute;
-    left: 0;      /* dấu chấm nằm sát mép mới */
-    top: 0;
-    font-size: 15px;
-    color: #000;
+    left: 0;
+    color: #999;
+}
+
+/* Button */
+.view-more-container {
+    text-align: center;
+    margin-top: 40px;
+    width: 100%;
+}
+
+.btn-view-more-outline {
+    display: inline-block;
+    padding: 12px 45px;
+    border: 1px solid #d4a576;
+    color: #d4a576;
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s;
+    background: transparent;
+    cursor: pointer;
+}
+
+.btn-view-more-outline:hover {
+    background-color: #d4a576;
+    color: #fff;
 }
 
 </style>
@@ -207,149 +209,151 @@ if ( ! defined( 'ABSPATH' ) ) {
 
     <div class="jobs-grid">
         <?php
-        $paged = isset($_GET['paged']) ? intval($_GET['paged']) : 1;
-        $jobs_query = new WP_Query(array(
-            'post_type' => 'job_listing',
-            'posts_per_page' => 6,
-            'post_status' => 'publish',
-            'paged' => $paged
-        ));
+        $args = [
+            'post_type'      => 'job_listing',
+            'post_status'    => 'publish',
+            'posts_per_page' => -1, // Lấy tất cả jobs
+            'orderby'        => 'date',
+            'order'          => 'DESC'
+        ];
+        $jobs = new WP_Query($args);
         
-        $total_jobs = $jobs_query->found_posts;
-        $total_pages = $jobs_query->max_num_pages;
+        $total_jobs = $jobs->found_posts;
+        $displayed_count = 0; 
         
-        if ($jobs_query->have_posts()) :
-            while ($jobs_query->have_posts()) : $jobs_query->the_post();
-                $company_name = get_post_meta(get_the_ID(), '_company_name', true);
-                $job_location = get_the_job_location();
-                $job_types = wpjm_get_the_job_types();
+        if ( $jobs->have_posts() ) :
+            while ( $jobs->have_posts() ) : $jobs->the_post();
+                $displayed_count++; // Tăng biến đếm
+
+                $id = get_the_ID();
+                
+                // Xử lý Logo
+                $logo_url = '';
+                if ( has_post_thumbnail( $id ) ) {
+                    $logo_url = get_the_post_thumbnail_url( $id, 'thumbnail' );
+                } else {
+                    $meta_logo = get_post_meta($id, '_company_logo', true);
+                    if ( !empty($meta_logo) ) {
+                        $logo_url = is_numeric( $meta_logo ) ? wp_get_attachment_image_src( $meta_logo, 'thumbnail' )[0] : $meta_logo;
+                    }
+                }
+                if ( empty($logo_url) ) $logo_url = 'https://via.placeholder.com/100x100?text=Logo'; 
+
+                $location     = get_post_meta($id, '_job_location', true);
+                $types        = get_the_terms( $id, 'job_listing_type' );
+                $type_name    = ($types && !is_wp_error($types)) ? $types[0]->name : 'Fulltime';
+                $cats         = get_the_terms( $id, 'job_listing_category' );
+                $cat_name     = ($cats && !is_wp_error($cats)) ? $cats[0]->name : 'General';
+                $excerpt      = wp_trim_words(get_the_content(), 15, '...');
+
+                // 2. LOGIC ẨN HIỆN: Chỉ hiển thị 6 job đầu, các job còn lại ẩn
+                $hidden_class = ($displayed_count > 6) ? 'hidden-job' : ''; 
+                $hidden_style = ($displayed_count > 6) ? 'style="display:none;"' : '';
         ?>
-        <div class="job-card">
-            <div class="job-header">
-                <div class="job-logo">
-                    <?php the_company_logo('thumbnail'); ?>
-                </div>
-                <div class="job-title-wrap">
-                    <h3 class="job-title">
-                        <a href="<?php the_job_permalink(); ?>" style="color: #2c2c2c !important;"><?php wpjm_the_job_title(); ?></a>
-                    </h3>
-                    <p class="job-date">Created: <?php echo get_the_date('M d, Y'); ?></p>
-                <div class="job-meta-row">
-                    <?php if (!empty($job_types)) : ?>
-                      <?php foreach ($job_types as $jobtype) : ?>
-    <span class="job-type-badge"><?php echo esc_html($jobtype->name); ?></span>
-<?php endforeach; ?>
-                    <?php endif; ?>
-                    
-                    <?php 
-                    $categories = get_the_terms(get_the_ID(), 'job_listing_category');
-                    if ($categories && !is_wp_error($categories)) :
-                        foreach ($categories as $category) : ?>
-                            <span class="tag"><?php echo esc_html($category->name); ?></span>
-                        <?php endforeach;
-                    endif;
-                    ?>
-                    
-                    <?php if ($job_location) : ?>
-                        <span class="tag"><?php echo esc_html($job_location); ?></span>
-                    <?php endif; ?>
-                    
-                    <?php 
-                    $company_tagline = get_post_meta(get_the_ID(), '_company_tagline', true);
-                    if ($company_tagline) : ?>
-                        <span class="company-tagline"><?php echo esc_html($company_tagline); ?></span>
-                    <?php else : ?>
-                        <span class="company-tagline">Company Tagline</span>
-                    <?php endif; ?>
-                </div>
-                </div>
-            </div>
-            
-            <div class="job-content">
+
+        <div class="job-grid-item <?php echo $hidden_class; ?>" <?php echo $hidden_style; ?>>
+            <div class="job-card-layout">
                 
-              
-                
-                <ul class="job-benefits">
-                    <?php
-                    $content = get_the_content();
-                    $content = wp_strip_all_tags($content);
-                    $lines = preg_split('/[\n\r•]/', $content);
-                    $count = 0;
-                    
-                    foreach ($lines as $line) {
-                        $line = trim($line);
-                        if (!empty($line) && $count < 3) {
-                            echo '<li>' . esc_html($line) . '</li>';
+                <div class="job-card-header">
+                    <div class="job-logo-box">
+                        <img src="<?php echo esc_url($logo_url); ?>" alt="Logo">
+                    </div>
+                    <div class="job-info-box">
+                        <h3 class="job-title">
+                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                        </h3>
+                     <?php
+$old_locale = get_locale();
+switch_to_locale('en_US');
+?>
+<p class="job-date">Created: <?php echo get_the_date('M d, Y'); ?></p>
+<?php
+restore_previous_locale();
+?>
+                        <div class="job-meta-gray-bar">
+                            <span><?php echo esc_html($type_name); ?></span>
+                            <span><?php echo esc_html($cat_name); ?></span>
+                            <?php if($location): ?><span><?php echo esc_html($location); ?></span><?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="job-card-body">
+                    <ul>
+                        <?php
+                        $content = get_the_content();
+                        $content = wp_strip_all_tags($content);
+                        
+                        // Tách nội dung thành các dòng
+                        $lines = preg_split('/[\n\r]+/', $content);
+                        $lines = array_filter(array_map('trim', $lines));
+                        
+                        // Hiển thị tối đa 3 dòng đầu tiên
+                        $count = 0;
+                        foreach ($lines as $line) {
+                            if ($count >= 3) break;
+                            if (!empty($line)) {
+                                echo '<li>' . esc_html($line) . '</li>';
+                                $count++;
+                            }
+                        }
+                        
+                        // Nếu không đủ 3 dòng, thêm dòng trống
+                        while ($count < 3) {
+                            echo '<li>&nbsp;</li>';
                             $count++;
                         }
-                    }
-                    
-                    if ($count === 0) {
-                        $excerpt = wp_trim_words($content, 10, '...');
-                        echo '<li>' . esc_html($excerpt) . '</li>';
-                    }
-                    ?>
-                </ul>
+                        ?>
+                    </ul>
+                </div>
+
             </div>
         </div>
-        <?php
+
+        <?php  
             endwhile;
             wp_reset_postdata();
-        else:
+        else :
+            echo '<p style="width:100%; text-align:center">No jobs found.</p>';
+        endif;
         ?>
-        <div class="job-card">
-            <div class="job-content">
-                <h3 class="job-title">No jobs found</h3>
-                <p class="job-date">Please check back later</p>
-            </div>
-        </div>
-        <?php endif; ?>
     </div>
     
     <?php if ($total_jobs > 6): ?>
-    <button class="load-more-jobs" onclick="loadMoreJobs()" style="display: block; margin-left: auto; margin-right: auto; margin-top: 40px; background: #fff; border: 2px solid #ff6900; color: #ff6900; padding: 15px 30px; font-weight: bold; cursor: pointer;">
+    <div class="view-more-container">
+     <button class="load-more-jobs" onclick="loadMoreJobs()" style="display: block; margin-left: auto; margin-right: auto; margin-top: 40px; background: #fff; border: 2px solid #ff6900; color: #ff6900; padding: 15px 30px; font-weight: bold; cursor: pointer;">
         LOAD MORE JOBS
     </button>
+    </div>
     
     <script>
-    let currentPage = <?php echo $paged; ?>;
-    let totalPages = <?php echo $total_pages; ?>;
+    let currentlyShowing = 6;
+    let totalJobs = <?php echo $total_jobs; ?>;
     
     function loadMoreJobs() {
         const button = document.querySelector('.load-more-jobs');
-        button.classList.add('loading');
         button.textContent = 'Loading...';
+        button.disabled = true;
         
-        currentPage++;
+        // Hiển thị thêm 6 job tiếp theo
+        const hiddenJobs = document.querySelectorAll('.hidden-job');
+        let showCount = 0;
         
-        fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: new URLSearchParams({
-                'action': 'load_more_jobs',
-                'paged': currentPage,
-                'nonce': '<?php echo wp_create_nonce('load_more_jobs_nonce'); ?>'
-            })
-        })
-        .then(response => response.text())
-        .then(data => {
-            const jobsGrid = document.querySelector('.jobs-grid');
-            jobsGrid.insertAdjacentHTML('beforeend', data);
-            
-            if (currentPage >= totalPages) {
-                button.style.display = 'none';
-            } else {
-                button.classList.remove('loading');
-                button.textContent = 'Load More Jobs';
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            button.classList.remove('loading');
-            button.textContent = 'Load More Jobs';
-        });
+        for (let i = 0; i < hiddenJobs.length && showCount < 6; i++) {
+            hiddenJobs[i].style.display = 'block';
+            hiddenJobs[i].classList.remove('hidden-job');
+            showCount++;
+        }
+        
+        currentlyShowing += showCount;
+        
+        // Nếu đã hiển thị tất cả jobs, ẩn nút
+        if (currentlyShowing >= totalJobs) {
+            button.style.display = 'none';
+        } else {
+            button.textContent = 'LOAD MORE JOBS';
+            button.disabled = false;
+        }
     }
     </script>
     <?php endif; ?>
