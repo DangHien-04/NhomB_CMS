@@ -139,52 +139,53 @@ if (job_manager_user_can_view_job_listing($id)):
                                         </div>
                                         <div class="job-info-box">
                                             <h3 class="job-title">
-                                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                                                <a
+                                                    href="<?php the_permalink(); ?>"><?php echo mb_strlen(get_the_title()) > 20 ? mb_substr(get_the_title(), 0, 25) . '...' : get_the_title(); ?></a>
                                             </h3>
                                             <p class="job-date">Created: <?php echo get_the_date('M d, Y'); ?></p>
                                             <div class="job-meta-gray-bar">
                                                 <span><?php echo esc_html($o_type); ?></span>
                                                 <span><?php echo esc_html($o_cat); ?></span>
-                                                <?php if ($o_location): ?><span><?php echo esc_html($o_location); ?></span><?php endif; ?>
+                                                <?php if ($location): ?><span><?php echo mb_strlen($location) > 20 ? mb_substr($location, 0, 20) . '...' : esc_html($location); ?></span><?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="job-card-body">
                                         <ul class="custom-ul"> <?php
-                                            $content = get_the_content();
-                                            $content = wp_strip_all_tags($content);
+                                        $content = get_the_content();
+                                        $content = wp_strip_all_tags($content);
 
-                                            // Tách nội dung thành các dòng
-                                            $lines = preg_split('/[\n\r]+/', $content);
-                                            $lines = array_filter(array_map('trim', $lines));
+                                        // Tách nội dung thành các dòng
+                                        $lines = preg_split('/[\n\r]+/', $content);
+                                        $lines = array_filter(array_map('trim', $lines));
 
-                                            // Hiển thị tối đa 3 dòng đầu tiên
-                                            $count_line = 0; 
-                                            $max_words_per_line = 8; // Đã rút ngắn xuống 8 từ cho mỗi dòng
-                                        
-                                            foreach ($lines as $line) {
-                                                if ($count_line >= 3)
-                                                    break;
-                                                if (!empty($line)) {
-                                                    // Rút gọn nội dung của từng dòng
-                                                    $trimmed_line = wp_trim_words($line, $max_words_per_line, '...');
-                                                    echo '<li>' . esc_html($trimmed_line) . '</li>';
-                                                    $count_line++;
-                                                }
-                                            }
-
-                                            // Nếu không đủ 3 dòng, thêm dòng trống
-                                            while ($count_line < 3) {
-                                                echo '<li>&nbsp;</li>';
+                                        // Hiển thị tối đa 3 dòng đầu tiên
+                                        $count_line = 0;
+                                        $max_words_per_line = 8; // Đã rút ngắn xuống 8 từ cho mỗi dòng
+                            
+                                        foreach ($lines as $line) {
+                                            if ($count_line >= 3)
+                                                break;
+                                            if (!empty($line)) {
+                                                // Rút gọn nội dung của từng dòng
+                                                $trimmed_line = wp_trim_words($line, $max_words_per_line, '...');
+                                                echo '<li>' . esc_html($trimmed_line) . '</li>';
                                                 $count_line++;
                                             }
-                                            ?>
+                                        }
+
+                                        // Nếu không đủ 3 dòng, thêm dòng trống
+                                        while ($count_line < 3) {
+                                            echo '<li>&nbsp;</li>';
+                                            $count_line++;
+                                        }
+                                        ?>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
 
-                        <?php
+                            <?php
                         endwhile;
                         wp_reset_postdata();
                     else:
@@ -193,7 +194,6 @@ if (job_manager_user_can_view_job_listing($id)):
                     ?>
                 </div>
             </div>
-
         </div>
     </div>
 <?php else: ?>

@@ -73,14 +73,12 @@ if ($ed_jobposting):
                                     </div>
                                     <div class="job-info-box">
                                         <h3 class="job-title">
-                                            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                                        </h3>
+<a href="<?php the_permalink(); ?>"><?php echo mb_strlen(get_the_title()) > 20 ? mb_substr(get_the_title(), 0, 25) . '...' : get_the_title(); ?></a>                                        </h3>
                                         <p class="job-date">Created: <?php echo get_the_date('M d, Y'); ?></p>
                                         <div class="job-meta-gray-bar">
                                             <span><?php echo esc_html($type_name); ?></span>
                                             <span><?php echo esc_html($cat_name); ?></span>
-                                            <?php if ($location): ?><span><?php echo esc_html($location); ?></span><?php endif; ?>
-                                        </div>
+<?php if($location): ?><span><?php echo mb_strlen($location) > 20 ? mb_substr($location, 0, 20) . '...' : esc_html($location); ?></span><?php endif; ?>                                        </div>
                                     </div>
                                 </div>
 
@@ -96,7 +94,7 @@ if ($ed_jobposting):
 
                                         // Hiển thị tối đa 3 dòng đầu tiên
                                         $count_line = 0; // Đổi tên biến để tránh trùng lặp
-                                        $max_words_per_line = 15; // Giới hạn 15 từ cho mỗi dòng
+                                        $max_words_per_line = 9; // Giới hạn 15 từ cho mỗi dòng
                             
                                         foreach ($lines as $line) {
                                             if ($count_line >= 3)
