@@ -134,7 +134,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 .job-meta-gray-bar {
-    background-color: #f5f5f5;
+    background-color: #f2f2f2;
     border-radius: 4px;
     padding: 6px 12px;
     display: inline-flex;
@@ -187,10 +187,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     cursor: pointer;
 }
 
-.btn-view-more-outline:hover {
-    background-color: #d4a576;
-    color: #fff;
-}
+
 
 </style>
 
@@ -324,7 +321,7 @@ restore_previous_locale();
     
     <?php if ($total_jobs > 6): ?>
     <div class="view-more-container">
-     <button class="load-more-jobs" onclick="loadMoreJobs()" style="display: block; margin-left: auto; margin-right: auto; margin-top: 40px; background: #fff; border: 2px solid #ff6900; color: #ff6900; padding: 15px 30px; font-weight: bold; cursor: pointer;">
+     <button class="load-more-jobs" onclick="loadMoreJobs()" style="display: block; margin-left: auto; margin-right: auto; margin-top: 40px; background: transparent; border: 2px solid #ff6900; color: #ff6900; padding: 15px 30px; font-weight: bold; cursor: pointer;">
         LOAD MORE JOBS
     </button>
     </div>
