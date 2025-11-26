@@ -8487,3 +8487,31 @@ body.custom-background.contact-page .contact-section__inner {
 .wp-block-social-links {
   flex-wrap: wrap !important;
 }
+/* 1. Thiết lập ảnh nền mới có lớp phủ đen mờ */
+#banner-section {
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1528127269322-539801943592?w=1200') center/cover no-repeat !important;
+    position: relative;
+}
+
+/* 2. Làm trong suốt ảnh cũ (để lộ ảnh nền mới bên dưới) */
+/* Chúng ta dùng opacity: 0 thay vì display: none để giữ chiều cao cho banner */
+#banner-section .item img, 
+#banner-section .wp-custom-header img,
+#banner-section .header-image {
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+/* 1. Đặt canh trái cho container chứa nội dung */
+.banner-caption .caption-inner {
+    text-align: left !important;
+}
+
+/* 2. Đẩy Tiêu đề và Mô tả sang phải 8% để thẳng hàng với Form */
+.banner-caption .title, 
+.banner-caption .description {
+    margin-left: -15% !important; /* Khớp với số 8% của form tìm kiếm */
+    margin-right: auto !important; /* Reset margin phải */
+    
+    /* Tùy chọn: Giới hạn chiều rộng để chữ không tràn hết màn hình nếu muốn */
+    max-width: 800px; 
+}
