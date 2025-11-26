@@ -238,3 +238,49 @@ function jobscout_load_more_jobs() {
     
     wp_die();
 }
+
+function jobscout_register_query_vars( $vars ) {
+    // Thêm biến truy vấn tùy chỉnh của bạn
+    $vars[] = 'search_location'; 
+    $vars[] = 'search_keywords'; // Đảm bảo keywords cũng được đăng ký nếu cần
+    return $vars;
+}
+add_filter( 'query_vars', 'jobscout_register_query_vars' );
+
+/**
+ * Lọc truy vấn job listing dựa trên các biến tìm kiếm tùy chỉnh.
+ */
+/**
+ * Lọc truy vấn job listing dựa trên các biến tìm kiếm tùy chỉnh.
+ */
+function jobscout_filter_job_listings( $query_args ) {
+    
+    // Xử lý Tìm kiếm theo Keywords (KHÔNG CẦN CHUYỂN SANG 's')
+    if ( isset( $_GET['search_keywords'] ) && ! empty( $_GET['search_keywords'] ) ) {
+        // Áp dụng giá trị này vào tham số 'search_keywords' của WP Job Manager
+        $query_args['search_keywords'] = sanitize_text_field( $_GET['search_keywords'] );
+    }
+    
+    // Xử lý Tìm kiếm theo Location (Địa điểm)
+    if ( isset( $_GET['search_location'] ) && ! empty( $_GET['search_location'] ) ) {
+        $location_search = trim( sanitize_text_field( $_GET['search_location'] ) );
+
+        if ( ! isset( $query_args['meta_query'] ) || ! is_array( $query_args['meta_query'] ) ) {
+            $query_args['meta_query'] = array( 'relation' => 'AND' );
+        } else {
+             if ( ! isset( $query_args['meta_query']['relation'] ) ) {
+                 $query_args['meta_query']['relation'] = 'AND';
+            }
+        }
+
+        // Thêm điều kiện lọc Location
+        $query_args['meta_query'][] = array(
+            'key'     => '_job_location', // Key mặc định của WP Job Manager
+            'value'   => $location_search,
+            'compare' => 'LIKE', 
+        );
+    }
+    
+    return $query_args;
+}
+add_filter( 'job_manager_get_listings_args', 'jobscout_filter_job_listings' );
