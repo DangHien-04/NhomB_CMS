@@ -125,7 +125,15 @@ if ( ! defined( 'ABSPATH' ) ) {
     margin: 0 0 8px 0;
     line-height: 1.3;
 }
-.job-title a { color: #333; text-decoration: none; }
+.job-title a {
+    color: #333; 
+    text-decoration: none;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 250px;
+}
 
 .job-date {
     font-size: 12px;
@@ -137,8 +145,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     background-color: #f2f2f2;
     border-radius: 4px;
     padding: 6px 12px;
-    display: inline-flex;
-    flex-wrap: wrap;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
     font-size: 12px;
     color: #666;
     gap: 10px;
@@ -147,6 +156,15 @@ if ( ! defined( 'ABSPATH' ) ) {
     content: "|";
     margin-left: 10px;
     color: #ccc;
+}
+
+.job-meta-gray-bar span {
+    flex: none;
+    text-align: left;
+    padding: 5px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* Body */
@@ -191,8 +209,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 </style>
 
+<?php
+    $hero_image = get_the_post_thumbnail_url( get_the_ID(), 'full' );
+    if ( ! $hero_image ) {
+        $hero_image = get_template_directory_uri() . '/images/banner-image.jpg';
+    }
+?>
 <!-- Hero Section -->
-<div class="hero">
+<div class="hero" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('<?php echo esc_url($hero_image); ?>') center/cover;">
     <h1>CAREER WITH US</h1>
 </div>
 
@@ -272,12 +296,18 @@ restore_previous_locale();
 ?>
                         <div class="job-meta-gray-bar">
                             <span><?php echo esc_html($type_name); ?></span>
-                            <span><?php echo esc_html($cat_name); ?></span>
+                            <?php
+                                $company_name = get_post_meta($id, '_company_name', true);
+                                if (!empty($company_name)) {
+                                    echo '<span>' . esc_html($company_name) . '</span>';
+                                } else {
+                                    echo '<span>' . esc_html($cat_name) . '</span>';
+                                }
+                            ?>
                             <?php if($location): ?><span><?php echo mb_strlen($location) > 20 ? mb_substr($location, 0, 20) . '...' : esc_html($location); ?></span><?php endif; ?>
                         </div>
                     </div>
                 </div>
-
               <div class="job-card-body">
                                     <ul>
                                         <?php
