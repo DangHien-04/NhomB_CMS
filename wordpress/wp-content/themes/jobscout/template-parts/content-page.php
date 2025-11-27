@@ -125,7 +125,15 @@ if ( ! defined( 'ABSPATH' ) ) {
     margin: 0 0 8px 0;
     line-height: 1.3;
 }
-.job-title a { color: #333; text-decoration: none; }
+.job-title a {
+    color: #333; 
+    text-decoration: none;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 250px;
+}
 
 .job-date {
     font-size: 12px;
@@ -137,8 +145,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     background-color: #f2f2f2;
     border-radius: 4px;
     padding: 6px 12px;
-    display: inline-flex;
-    flex-wrap: wrap;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
     font-size: 12px;
     color: #666;
     gap: 10px;
@@ -147,6 +156,15 @@ if ( ! defined( 'ABSPATH' ) ) {
     content: "|";
     margin-left: 10px;
     color: #ccc;
+}
+
+.job-meta-gray-bar span {
+    flex: none;
+    text-align: left;
+    padding: 5px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* Body */
@@ -290,7 +308,6 @@ restore_previous_locale();
                         </div>
                     </div>
                 </div>
-
               <div class="job-card-body">
                                     <ul>
                                         <?php
