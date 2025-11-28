@@ -307,7 +307,7 @@ do_action('jobscout_before_footer');
         display: flex !important;
         justify-content: flex-end;
         gap: 15px;
-        padding-bottom: 50px;
+        padding-bottom: 80px;
         min-height: 40px;
     }
 
@@ -352,6 +352,10 @@ do_action('jobscout_before_footer');
         max-width: 1200px;
         margin: 0 auto;
         padding: 0 20px;
+    }
+
+    .widget {
+        margin: 0 !important;
     }
 
     /* Remove white gap between main content and footer */
