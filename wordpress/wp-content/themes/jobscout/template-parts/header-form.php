@@ -44,12 +44,18 @@ $ed_job_category = get_option('job_manager_enable_categories');
 
         <div class="search_location">
           <?php
-          // Lấy dữ liệu từ CSDL
           global $wpdb;
           $table = $wpdb->postmeta;
           $meta_key_like = '%location%';
 
-          // SỬA: Thêm TRIM() để loại bỏ khoảng trắng thừa và ép kiểu Collation tiếng Việt (nếu cần)
+          // 1. Lấy danh sách các từ khóa cần ẩn từ trang Admin (Customizer)
+          // Kết quả sẽ là chuỗi: "CA, Hà Nội"
+          $hidden_locations_string = get_theme_mod('jobscout_hidden_locations', '');
+
+          // 2. Chuyển chuỗi thành mảng để dễ so sánh: ['CA', 'Hà Nội']
+          // array_map('trim', ...) để cắt bỏ khoảng trắng thừa nếu người dùng lỡ nhập "CA,  Hà Nội"
+          $hidden_locations_array = array_map('trim', explode(',', $hidden_locations_string));
+
           $sql = $wpdb->prepare("
         SELECT DISTINCT TRIM(SUBSTRING_INDEX(meta_value, ',', -1)) as location 
         FROM {$table} 
@@ -59,14 +65,23 @@ $ed_job_category = get_option('job_manager_enable_categories');
 
           $data = $wpdb->get_results($sql);
           ?>
+
           <label for="search_location"><?php esc_html_e('Location', 'jobscout'); ?></label>
           <select id="search_location" name="search_location" class="location-dropdown">
             <option value=""><?php esc_html_e('Khu vực', 'jobscout'); ?></option>
             <?php
             if ($data) {
               foreach ($data as $value) :
-                // Dữ liệu đã sạch từ SQL, nhưng trim lần nữa cho chắc chắn khi hiển thị
                 $location_text = trim($value->location);
+
+                // --- LOGIC MỚI: KIỂM TRA ĐỘNG ---
+                // Kiểm tra xem địa điểm hiện tại có nằm trong danh sách đen không
+                // Nếu có trong danh sách -> Bỏ qua (Continue)
+                if (in_array($location_text, $hidden_locations_array)) {
+                  continue;
+                }
+                // -------------------------------
+
                 if (!empty($location_text)) {
             ?>
                   <option value="<?php echo esc_attr($location_text); ?>"><?php echo esc_html($location_text); ?></option>

@@ -284,3 +284,26 @@ function jobscout_filter_job_listings( $query_args ) {
     return $query_args;
 }
 add_filter( 'job_manager_get_listings_args', 'jobscout_filter_job_listings' );
+// Thêm cài đặt vào Customizer (Giao diện > Tùy biến)
+function jobscout_custom_search_settings($wp_customize) {
+    // 1. Tạo section mới tên "Cấu hình Tìm kiếm"
+    $wp_customize->add_section('jobscout_search_config', array(
+        'title'    => __('Cấu hình Tìm kiếm Việc làm', 'jobscout'),
+        'priority' => 30,
+    ));
+
+    // 2. Tạo setting lưu dữ liệu
+    $wp_customize->add_setting('jobscout_hidden_locations', array(
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    // 3. Tạo ô nhập liệu (Input text)
+    $wp_customize->add_control('jobscout_hidden_locations', array(
+        'label'       => __('Các địa điểm cần ẩn', 'jobscout'),
+        'description' => __('Nhập tên chính xác các địa điểm muốn ẩn, ngăn cách bằng dấu phẩy. Ví dụ: CA, Hà Nội, New York', 'jobscout'),
+        'section'     => 'jobscout_search_config',
+        'type'        => 'text',
+    ));
+}
+add_action('customize_register', 'jobscout_custom_search_settings');
