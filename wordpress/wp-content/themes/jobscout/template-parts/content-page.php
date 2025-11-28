@@ -224,10 +224,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="jobs-section">
     <div class="jobs-header">
         <h2>ALL JOBS</h2>
-        <select class="filter-dropdown">
-            <option>Latest Jobs</option>
-            <option>Oldest Jobs</option>
-            <option>By Location</option>
+        <select class="filter-dropdown" onchange="filterJobs(this.value)">
+            <option value="latest">Latest Jobs</option>
+            <option value="oldest">Oldest Jobs</option>
+            <option value="location">By Location</option>
         </select>
     </div>
 
@@ -386,6 +386,50 @@ restore_previous_locale();
             button.textContent = 'LOAD MORE JOBS';
             button.disabled = false;
         }
+    }
+    
+    function filterJobs(filterType) {
+        const jobsGrid = document.querySelector('.jobs-grid');
+        const jobItems = document.querySelectorAll('.job-grid-item');
+        
+        // Hiển thị loading state
+        jobsGrid.style.opacity = '0.5';
+        
+        // Gọi AJAX để lấy dữ liệu đã filter
+        fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                'action': 'filter_jobs',
+                'filter_type': filterType,
+                'nonce': '<?php echo wp_create_nonce('filter_jobs_nonce'); ?>'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                jobsGrid.innerHTML = data.data.html;
+                // Reset load more button
+                currentlyShowing = data.data.displayed_count;
+                totalJobs = data.data.total_jobs;
+                
+                const loadMoreBtn = document.querySelector('.load-more-jobs');
+                if (loadMoreBtn) {
+                    if (currentlyShowing >= totalJobs) {
+                        loadMoreBtn.style.display = 'none';
+                    } else {
+                        loadMoreBtn.style.display = 'block';
+                    }
+                }
+            }
+            jobsGrid.style.opacity = '1';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            jobsGrid.style.opacity = '1';
+        });
     }
     </script>
     <?php endif; ?>
