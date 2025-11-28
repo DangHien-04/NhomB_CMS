@@ -307,3 +307,147 @@ function jobscout_custom_search_settings($wp_customize) {
     ));
 }
 add_action('customize_register', 'jobscout_custom_search_settings');
+// AJAX handler for job filtering
+function filter_jobs_ajax_handler() {
+    // Verify nonce
+    if (!wp_verify_nonce($_POST['nonce'], 'filter_jobs_nonce')) {
+        wp_die('Security check failed');
+    }
+    
+    $filter_type = sanitize_text_field($_POST['filter_type']);
+    
+    // Set up query arguments based on filter type
+    $args = [
+        'post_type'      => 'job_listing',
+        'post_status'    => 'publish',
+        'posts_per_page' => -1,
+    ];
+    
+    switch($filter_type) {
+        case 'latest':
+            $args['orderby'] = 'date';
+            $args['order'] = 'DESC';
+            break;
+        case 'oldest':
+            $args['orderby'] = 'date';
+            $args['order'] = 'ASC';
+            break;
+        case 'location':
+            $args['orderby'] = 'meta_value';
+            $args['meta_key'] = '_job_location';
+            $args['order'] = 'ASC';
+            break;
+        default:
+            $args['orderby'] = 'date';
+            $args['order'] = 'DESC';
+    }
+    
+    $jobs = new WP_Query($args);
+    $total_jobs = $jobs->found_posts;
+    $displayed_count = 0;
+    $html = '';
+    
+    if ($jobs->have_posts()) {
+        while ($jobs->have_posts()) {
+            $jobs->the_post();
+            $displayed_count++;
+            
+            $id = get_the_ID();
+            
+            // Xử lý Logo
+            $logo_url = '';
+            if (has_post_thumbnail($id)) {
+                $logo_url = get_the_post_thumbnail_url($id, 'thumbnail');
+            } else {
+                $meta_logo = get_post_meta($id, '_company_logo', true);
+                if (!empty($meta_logo)) {
+                    $logo_url = is_numeric($meta_logo) ? wp_get_attachment_image_src($meta_logo, 'thumbnail')[0] : $meta_logo;
+                }
+            }
+            if (empty($logo_url)) $logo_url = 'https://via.placeholder.com/100x100?text=Logo';
+            
+            $location     = get_post_meta($id, '_job_location', true);
+            $types        = get_the_terms($id, 'job_listing_type');
+            $type_name    = ($types && !is_wp_error($types)) ? $types[0]->name : 'Fulltime';
+            $cats         = get_the_terms($id, 'job_listing_category');
+            $cat_name     = ($cats && !is_wp_error($cats)) ? $cats[0]->name : 'General';
+            
+            // Logic ẩn/hiện
+            $hidden_class = ($displayed_count > 6) ? 'hidden-job' : '';
+            $hidden_style = ($displayed_count > 6) ? 'style="display:none;"' : '';
+            
+            $html .= '<div class="job-grid-item ' . $hidden_class . '" ' . $hidden_style . '>';
+            $html .= '<div class="job-card-layout">';
+            $html .= '<div class="job-card-header">';
+            $html .= '<div class="job-logo-box">';
+            $html .= '<img src="' . esc_url($logo_url) . '" alt="Logo">';
+            $html .= '</div>';
+            $html .= '<div class="job-info-box">';
+            $html .= '<h3 class="job-title">';
+            $html .= '<a href="' . get_permalink() . '">' . (mb_strlen(get_the_title()) > 20 ? mb_substr(get_the_title(), 0, 25) . '...' : get_the_title()) . '</a>';
+            $html .= '</h3>';
+            
+            $old_locale = get_locale();
+            switch_to_locale('en_US');
+            $html .= '<p class="job-date">Created: ' . get_the_date('M d, Y') . '</p>';
+            restore_previous_locale();
+            
+            $html .= '<div class="job-meta-gray-bar">';
+            $html .= '<span>' . esc_html($type_name) . '</span>';
+            
+            $company_name = get_post_meta($id, '_company_name', true);
+            if (!empty($company_name)) {
+                $company_name = mb_strlen($company_name) > 20 ? mb_substr($company_name, 0, 20) . '...' : $company_name;
+                $html .= '<span>' . esc_html($company_name) . '</span>';
+            } else {
+                $cat_name = mb_strlen($cat_name) > 20 ? mb_substr($cat_name, 0, 20) . '...' : $cat_name;
+                $html .= '<span>' . esc_html($cat_name) . '</span>';
+            }
+            
+            if ($location) {
+                $html .= '<span>' . (mb_strlen($location) > 20 ? mb_substr($location, 0, 20) . '...' : esc_html($location)) . '</span>';
+            }
+            
+            $html .= '</div>';
+            $html .= '</div>';
+            $html .= '</div>';
+            
+            $html .= '<div class="job-card-body">';
+            $html .= '<ul>';
+            
+            $content = get_the_content();
+            $content = wp_strip_all_tags($content);
+            $lines = preg_split('/[\n\r]+/', $content);
+            $lines = array_filter(array_map('trim', $lines));
+            
+            $count = 0;
+            $max_words_per_line = 10;
+            
+            foreach ($lines as $line) {
+                if ($count >= 3) break;
+                if (!empty($line)) {
+                    $trimmed_line = wp_trim_words($line, $max_words_per_line, '...');
+                    $html .= '<li>' . esc_html($trimmed_line) . '</li>';
+                    $count++;
+                }
+            }
+            
+            $html .= '</ul>';
+            $html .= '</div>';
+            $html .= '</div>';
+            $html .= '</div>';
+        }
+        wp_reset_postdata();
+    } else {
+        $html = '<p style="width:100%; text-align:center">No jobs found.</p>';
+    }
+    
+    wp_send_json_success([
+        'html' => $html,
+        'total_jobs' => $total_jobs,
+        'displayed_count' => $displayed_count
+    ]);
+}
+
+add_action('wp_ajax_filter_jobs', 'filter_jobs_ajax_handler');
+add_action('wp_ajax_nopriv_filter_jobs', 'filter_jobs_ajax_handler');
