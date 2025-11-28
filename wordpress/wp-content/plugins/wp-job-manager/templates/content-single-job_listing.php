@@ -170,7 +170,7 @@ if (job_manager_user_can_view_job_listing($id)):
                                                 <?php
                                                 $company_name = get_post_meta($id, '_company_name', true);
                                                 if (!empty($company_name)) {
-                                                    $company_name = mb_strlen($company_name) > 20 ? mb_substr($company_name, 0, 20) . '...' : $company_name;
+                                                    $company_name = mb_strlen($company_name) > 10 ? mb_substr($company_name, 0, 10) . '...' : $company_name;
                                                     echo '<span>' . esc_html($company_name) . '</span>';
                                                 } else {
                                                     $cat_name = mb_strlen($cat_name) > 20 ? mb_substr($cat_name, 0, 20) . '...' : $cat_name;
