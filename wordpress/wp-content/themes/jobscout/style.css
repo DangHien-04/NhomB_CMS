@@ -8488,19 +8488,7 @@ body.custom-background.contact-page .contact-section__inner {
   flex-wrap: wrap !important;
 }
 /* 1. Thiết lập ảnh nền mới có lớp phủ đen mờ */
-#banner-section {
-    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1528127269322-539801943592?w=1200') center/cover no-repeat !important;
-    position: relative;
-}
 
-/* 2. Làm trong suốt ảnh cũ (để lộ ảnh nền mới bên dưới) */
-/* Chúng ta dùng opacity: 0 thay vì display: none để giữ chiều cao cho banner */
-#banner-section .item img, 
-#banner-section .wp-custom-header img,
-#banner-section .header-image {
-    opacity: 0 !important;
-    visibility: hidden !important;
-}
 /* 1. Đặt canh trái cho container chứa nội dung */
 .banner-caption .caption-inner {
     text-align: left !important;
