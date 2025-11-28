@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Job Posting Section - Layout 2 cột + Chức năng Load More (JavaScript)
  */
@@ -7,7 +8,7 @@ $job_title = get_theme_mod('job_posting_section_title', 'TOP JOBS');
 $ed_jobposting = get_theme_mod('ed_jobposting', true);
 
 if ($ed_jobposting):
-    ?>
+?>
 
     <section id="job-posting-section" class="top-job-section">
         <div class="container">
@@ -36,7 +37,7 @@ if ($ed_jobposting):
                     while ($jobs->have_posts()):
                         $jobs->the_post();
                         $count++; // Tăng biến đếm
-            
+
                         $id = get_the_ID();
 
                         // Xử lý Logo
@@ -62,7 +63,7 @@ if ($ed_jobposting):
                         // 2. LOGIC ẨN HIỆN: Nếu là job thứ 7 trở đi thì thêm class 'hidden-job'
                         $hidden_class = ($count > 6) ? 'hidden-job' : '';
                         $hidden_style = ($count > 6) ? 'style="display:none;"' : '';
-                        ?>
+                ?>
 
                         <div class="job-grid-item <?php echo $hidden_class; ?>" <?php echo $hidden_style; ?>>
                             <div class="job-card-layout">
@@ -86,7 +87,14 @@ if ($ed_jobposting):
                                         ?>
                                         <div class="job-meta-gray-bar">
                                             <span><?php echo esc_html($type_name); ?></span>
-                                            <span><?php echo esc_html($cat_name); ?></span>
+                                            <?php
+                                            $company_name = get_post_meta($id, '_company_name', true);
+                                            if (!empty($company_name)) {
+                                                echo '<span>' . esc_html($company_name) . '</span>';
+                                            } else {
+                                                echo '<span>' . esc_html($cat_name) . '</span>';
+                                            }
+                                            ?>
                                             <?php if ($location): ?><span><?php echo mb_strlen($location) > 20 ? mb_substr($location, 0, 20) . '...' : esc_html($location); ?></span><?php endif; ?>
                                         </div>
                                     </div>
@@ -105,7 +113,7 @@ if ($ed_jobposting):
                                         // Hiển thị tối đa 3 dòng đầu tiên
                                         $count_line = 0; // Đổi tên biến để tránh trùng lặp
                                         $max_words_per_line = 9; // Giới hạn 15 từ cho mỗi dòng
-                            
+
                                         foreach ($lines as $line) {
                                             if ($count_line >= 3)
                                                 break;
@@ -127,7 +135,7 @@ if ($ed_jobposting):
                                 </div>
                             </div>
                         </div>
-                        <?php
+                <?php
                     endwhile;
                     wp_reset_postdata();
                 else:
@@ -150,17 +158,17 @@ if ($ed_jobposting):
 
 <script>
     // 4. JAVASCRIPT XỬ LÝ LOAD MORE
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         var loadMoreBtn = document.getElementById('load-more-btn');
         if (loadMoreBtn) {
-            loadMoreBtn.addEventListener('click', function (e) {
+            loadMoreBtn.addEventListener('click', function(e) {
                 e.preventDefault();
 
                 // Tìm tất cả các job đang bị ẩn
                 var hiddenJobs = document.querySelectorAll('.hidden-job');
 
                 // Hiển thị từng cái một
-                hiddenJobs.forEach(function (job) {
+                hiddenJobs.forEach(function(job) {
                     job.style.display = 'block'; // Hiện lại
                     job.classList.remove('hidden-job'); // Xóa class ẩn
                 });
