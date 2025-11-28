@@ -49,12 +49,13 @@ $ed_job_category = get_option('job_manager_enable_categories');
           $table = $wpdb->postmeta;
           $meta_key_like = '%location%';
 
+          // SỬA: Thêm TRIM() để loại bỏ khoảng trắng thừa và ép kiểu Collation tiếng Việt (nếu cần)
           $sql = $wpdb->prepare("
-            SELECT DISTINCT SUBSTRING_INDEX(meta_value, ',', -1) as location 
-            FROM {$table} 
-            WHERE meta_key LIKE %s
-            ORDER BY location
-          ", $meta_key_like);
+        SELECT DISTINCT TRIM(SUBSTRING_INDEX(meta_value, ',', -1)) as location 
+        FROM {$table} 
+        WHERE meta_key LIKE %s
+        ORDER BY location ASC
+    ", $meta_key_like);
 
           $data = $wpdb->get_results($sql);
           ?>
@@ -64,10 +65,11 @@ $ed_job_category = get_option('job_manager_enable_categories');
             <?php
             if ($data) {
               foreach ($data as $value) :
-                $trimmed_location = trim($value->location);
-                if (!empty($trimmed_location)) {
+                // Dữ liệu đã sạch từ SQL, nhưng trim lần nữa cho chắc chắn khi hiển thị
+                $location_text = trim($value->location);
+                if (!empty($location_text)) {
             ?>
-                  <option value="<?php echo esc_attr($trimmed_location); ?>"><?php echo esc_html($trimmed_location); ?></option>
+                  <option value="<?php echo esc_attr($location_text); ?>"><?php echo esc_html($location_text); ?></option>
             <?php
                 }
               endforeach;
@@ -177,9 +179,13 @@ $ed_job_category = get_option('job_manager_enable_categories');
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border-right: none !important;
     border: none !important;
-    background-image: url('data:image/svg+xml; utf-8, <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="%23ff8c00" d="M172.268 501.67C26.463 369.103 0 286.995 0 192C0 86 85.95 0 192 0s192 86 192 192c0 94.995-26.463 177.103-172.268 309.67l-3.344 3.149a3.872 3.872 0 0 1-5.751 0zM192 256c35.346 0 64-28.654 64-64 0-35.346-28.654-64-64-64s-64 28.654-64 64c0 35.346 28.654 64 64 64z"/></svg>');
+
+    /* ĐÃ CẬP NHẬT: Icon dạng viền (outline) */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23ff8c00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>');
+
     background-repeat: no-repeat;
-    background-size: 20px;
+    background-size: 22px;
+    /* Tăng nhẹ kích thước vì icon viền thường trông mỏng hơn icon đặc */
     background-position: 15px center;
   }
 
@@ -225,6 +231,6 @@ $ed_job_category = get_option('job_manager_enable_categories');
     border-radius: 0 !important;
     border: none !important;
     box-shadow: none !important;
-  
+
   }
 </style>
